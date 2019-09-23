@@ -174,7 +174,7 @@ And here's an example on iOS:
 
 ![Lambda MUD Mobile](img/ios_lambdamud.jpg)
 
-### 2. How do I build something like that?
+### 2. How do I build something like that
 
 Think about the algorithm to draw your map. It will probably be something like this:
 

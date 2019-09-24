@@ -4,7 +4,7 @@ import random
 
 Room.objects.all().delete()
 
-r_outside = Room(title="Outside Cave Entrance",
+"""r_outside = Room(title="Outside Cave Entrance",
                description="North of you, the cave mount beckons")
 
 r_foyer = Room(title="Foyer", description="""Dim light filters in from the south. Dusty
@@ -25,45 +25,48 @@ r_outside.save()
 r_foyer.save()
 r_overlook.save()
 r_narrow.save()
-r_treasure.save()
+r_treasure.save()"""
 
 
-existing_rooms = [r_foyer, r_overlook, r_overlook, r_narrow, r_treasure,]
-added_rooms = []
-num_rooms = 20
-rooms = 0
+room_count = 0
+rooms = []
 dirs = {0: 'n', 1: 's', 2: 'e', 3:'w'}
-
-while rooms < num_rooms:
-  room = existing_rooms[random.randint(0, len(existing_rooms) - 1)]
+num_rooms = 20
+while room_count < num_rooms:
+  if room_count is 0:
+    room = Room(room_count, "A Generic Room", "This is a generic room.")
+    rooms.append(room)
+    room_count += 1
+  rand_room = rooms[random.randint(0, len(rooms) - 1)]
   rand_dir = dirs[random.randint(0, 3)]
   if rand_dir is 'n':
-    if room.n_to is 0:
-      new_room = existing_rooms[random.randint(0, len(existing_rooms) - 1)]
-      room.connect_rooms(new_room, rand_dir)
-      added_rooms.append(new_room)
-      rooms += 1
-  if rand_dir is 's':
-    if room.s_to is 0:
-      new_room = existing_rooms[random.randint(0, len(existing_rooms) - 1)]
-      room.connect_rooms(new_room, rand_dir)
-      added_rooms.append(new_room)
-      rooms += 1
-  if rand_dir is 'e':
-    if room.e_to is 0:
-      new_room = existing_rooms[random.randint(0, len(existing_rooms) - 1)]
-      room.connect_rooms(new_room, rand_dir)
-      added_rooms.append(new_room)
-      rooms += 1
-  if rand_dir is 'w':
-    if room.w_to is 0:
-      new_room = existing_rooms[random.randint(0, len(existing_rooms) - 1)]
-      room.connect_rooms(new_room, rand_dir)
-      added_rooms.append(new_room)
-      rooms += 1
+    if rand_room.n_to is None:
+      new_room = Room(room_count, "A Generic Room", "This is a generic room.")
+      rand_room.connect_rooms(new_room, rand_dir)
+      rooms.append(new_room)
+      room_count += 1
+  elif rand_dir is 's':
+    if rand_room.s_to is None:
+      new_room = Room(room_count, "A Generic Room", "This is a generic room.")
+      rand_room.connect_rooms(new_room, rand_dir)
+      rooms.append(new_room)
+      room_count += 1
+  elif rand_dir is 'e':
+    if rand_room.e_to is None:
+      new_room = Room(room_count, "A Generic Room", "This is a generic room.")
+      rand_room.connect_rooms(new_room, rand_dir)
+      rooms.append(new_room)
+      room_count += 1
+  elif rand_dir is 'w':
+    if rand_room.w_to is None:
+      new_room = Room(room_count, "A Generic Room", "This is a generic room.")
+      rand_room.connect_rooms(new_room, rand_dir)
+      rooms.append(new_room)
+      room_count += 1
+for room in rooms:
+  room.save()
 
 players=Player.objects.all()
 for p in players:
-  p.currentRoom=r_foyer.id
+  p.currentRoom=rooms[0].id
   p.save()
-

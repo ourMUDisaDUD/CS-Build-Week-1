@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
-
+import random
 
 Room.objects.all().delete()
 
@@ -27,21 +27,43 @@ r_overlook.save()
 r_narrow.save()
 r_treasure.save()
 
-# Link rooms together
-r_outside.connectRooms(r_foyer, "n")
-r_foyer.connectRooms(r_outside, "s")
 
-r_foyer.connectRooms(r_overlook, "n")
-r_overlook.connectRooms(r_foyer, "s")
+existing_rooms = [r_foyer, r_overlook, r_overlook, r_narrow, r_treasure,]
+added_rooms = []
+num_rooms = 20
+rooms = 0
+dirs = {0: 'n', 1: 's', 2: 'e', 3:'w'}
 
-r_foyer.connectRooms(r_narrow, "e")
-r_narrow.connectRooms(r_foyer, "w")
-
-r_narrow.connectRooms(r_treasure, "n")
-r_treasure.connectRooms(r_narrow, "s")
+while rooms < num_rooms:
+  room = existing_rooms[random.randint(0, len(existing_rooms) - 1)]
+  rand_dir = dirs[random.randint(0, 3)]
+  if rand_dir is 'n':
+    if room.n_to is 0:
+      new_room = existing_rooms[random.randint(0, len(existing_rooms) - 1)]
+      room.connect_rooms(new_room, rand_dir)
+      added_rooms.append(new_room)
+      rooms += 1
+  if rand_dir is 's':
+    if room.s_to is 0:
+      new_room = existing_rooms[random.randint(0, len(existing_rooms) - 1)]
+      room.connect_rooms(new_room, rand_dir)
+      added_rooms.append(new_room)
+      rooms += 1
+  if rand_dir is 'e':
+    if room.e_to is 0:
+      new_room = existing_rooms[random.randint(0, len(existing_rooms) - 1)]
+      room.connect_rooms(new_room, rand_dir)
+      added_rooms.append(new_room)
+      rooms += 1
+  if rand_dir is 'w':
+    if room.w_to is 0:
+      new_room = existing_rooms[random.randint(0, len(existing_rooms) - 1)]
+      room.connect_rooms(new_room, rand_dir)
+      added_rooms.append(new_room)
+      rooms += 1
 
 players=Player.objects.all()
 for p in players:
-  p.currentRoom=r_outside.id
+  p.currentRoom=r_foyer.id
   p.save()
 

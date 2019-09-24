@@ -14,7 +14,8 @@ django-cors-headers = "*"
 gunicorn = "*"
 django-heroku = "*"
 django-rest-api = "*"
-rest-frameworks = "*"
+dj-database-url = "*"
+whitenoise = "*"
 
 [dev-packages]
 

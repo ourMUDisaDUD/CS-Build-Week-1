@@ -4,6 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from decouple import config
 from django.contrib.auth.models import User
+from adventure.models import Room
 from .models import *
 from rest_framework.decorators import api_view
 import json
@@ -22,6 +23,16 @@ def initialize(request):
     players = room.playerNames(player_id)
     return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
 
+@csrf_exempt
+@api_view(["GET"])
+def get_rooms(request):
+    rooms = Room.objects.all()
+    rooms_res = []
+    res = {}
+    for r in rooms:
+        rooms_res.append({'id':r.id, 'title':r.title, 'description':r.description, 'n_to':r.n_to, 's_to': r.s_to,'e_to':r.e_to,"w_to": r.w_to})
+    res['rooms'] = rooms_res
+    return JsonResponse(res)
 
 # @csrf_exempt
 @api_view(["POST"])
@@ -65,3 +76,4 @@ def move(request):
 def say(request):
     # IMPLEMENT
     return JsonResponse({'error':"Not yet implemented"}, safe=True, status=500)
+

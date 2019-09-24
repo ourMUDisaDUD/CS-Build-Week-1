@@ -29,10 +29,11 @@ def get_rooms(request):
     rooms = Room.objects.all()
     rooms_res = []
     res = {}
+    res_dict = {}
     for r in rooms:
-        rooms_res.append({'id':r.id, 'title':r.title, 'description':r.description, 'n_to':r.n_to, 's_to': r.s_to,'e_to':r.e_to,"w_to": r.w_to})
-    res['rooms'] = rooms_res
-    return JsonResponse(res)
+        res[r.id] = {'title':r.title, 'description':r.description, 'n_to':r.n_to, 's_to': r.s_to,'e_to':r.e_to,"w_to": r.w_to}
+    res_dict['rooms'] = res
+    return JsonResponse(res_dict)
 
 # @csrf_exempt
 @api_view(["POST"])

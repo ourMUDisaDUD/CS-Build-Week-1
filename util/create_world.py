@@ -8,8 +8,7 @@ room_count = 0
 rooms = []
 dirs = {0: 'n', 1: 's', 2: 'e', 3: 'w'}
 reverse_dirs = {0: 's', 1: 'n', 2: 'w', 3: 'e'}
-num_rooms = 300
-end_room = int(int(num_rooms) - int(1))
+num_rooms = 600
 
 names_descriptions = {
     'Treasure Room': 'A room brimming with gold and other treasures.',
@@ -51,6 +50,12 @@ end_finish = {
 
 endfin = list(end_finish.items())
 
+def save_room(room, new_room, rand_dir, reverse_dir):
+    new_room.save()
+    room.connectRooms(new_room, rand_dir)
+    new_room.connectRooms(room, reverse_dir)
+    new_room.save()
+
 #TODO artifact room and treasure rooms have special good loot
 
 while room_count < num_rooms:
@@ -64,62 +69,46 @@ while room_count < num_rooms:
     else:   
         #rand_room = rooms[random.randint(0, len(rooms) - 1)]
         rand_room = rooms[random.randint(len(rooms) // 2, len(rooms) - 1)]
-        dir = random.randint(0, 3)
-        rand_dir = dirs[dir]
-        rev_dir = reverse_dirs[dir]
-        if rand_dir is 'n':
-            if rand_room.n_to is 0:
-                if room_count == num_rooms - 1:
-                    end_name, end_desc = endfin[1]
-                    name = end_name
-                    desc = end_desc
-                new_room = Room(title = name,
-                                description = desc)
-                new_room.save()
-                rand_room.connectRooms(new_room, rand_dir)
-                new_room.connectRooms(rand_room, rev_dir)
-                new_room.save()
-                rooms.append(new_room)
-                room_count += 1
-        elif rand_dir is 's':
-            if rand_room.s_to is 0:
-                if room_count == num_rooms - 1:
-                    end_name, end_desc = endfin[1]
-                    name = end_name
-                    desc = end_desc
-                new_room = Room(title = name, description = desc)
-                new_room.save()
-                rand_room.connectRooms(new_room, rand_dir)
-                new_room.connectRooms(rand_room, rev_dir)
-                new_room.save()
-                rooms.append(new_room)
-                room_count += 1
-        elif rand_dir is 'e':
-            if rand_room.e_to is 0:
-                if room_count == num_rooms - 1:
-                    end_name, end_desc = endfin[1]
-                    name = end_name
-                    desc = end_desc
-                new_room = Room(title = name, description = desc)
-                new_room.save()
-                rand_room.connectRooms(new_room, rand_dir)
-                new_room.connectRooms(rand_room, rev_dir)
-                new_room.save()
-                rooms.append(new_room)
-                room_count += 1
-        elif rand_dir is 'w':
-            if rand_room.w_to is 0:
-                if room_count == num_rooms - 1:
-                    end_name, end_desc = endfin[1]
-                    name = end_name
-                    desc = end_desc
-                new_room = Room(title = name, description = desc)
-                new_room.save()
-                rand_room.connectRooms(new_room, rand_dir)
-                new_room.connectRooms(rand_room, rev_dir)
-                new_room.save()
-                rooms.append(new_room)
-                room_count += 1
+        direction = random.randint(0, 3)
+        rand_dir = dirs[direction]
+        rev_dir = reverse_dirs[direction]
+        if rand_dir is 'n' and rand_room.n_to is 0:
+            if room_count == num_rooms - 1:
+                end_name, end_desc = endfin[1]
+                name = end_name
+                desc = end_desc
+            new_room = Room(title = name,
+                            description = desc)
+            save_room(rand_room, new_room, rand_dir, rev_dir)
+            rooms.append(new_room)
+            room_count += 1
+        elif rand_dir is 's' and rand_room.s_to is 0:
+            if room_count == num_rooms - 1:
+                end_name, end_desc = endfin[1]
+                name = end_name
+                desc = end_desc
+            new_room = Room(title = name, description = desc)
+            save_room(rand_room, new_room, rand_dir, rev_dir)
+            rooms.append(new_room)
+            room_count += 1
+        elif rand_dir is 'e' and rand_room.e_to is 0:
+            if room_count == num_rooms - 1:
+                end_name, end_desc = endfin[1]
+                name = end_name
+                desc = end_desc
+            new_room = Room(title = name, description = desc)
+            save_room(rand_room, new_room, rand_dir, rev_dir)
+            rooms.append(new_room)
+            room_count += 1
+        elif rand_dir is 'w' and rand_room.w_to is 0:
+            if room_count == num_rooms - 1:
+                end_name, end_desc = endfin[1]
+                name = end_name
+                desc = end_desc
+            new_room = Room(title = name, description = desc)
+            save_room(rand_room, new_room, rand_dir, rev_dir)
+            rooms.append(new_room)
+            room_count += 1
         rand_room.save()
 
 players = Player.objects.all()

@@ -25,13 +25,27 @@ def initialize(request):
 
 @csrf_exempt
 @api_view(["GET"])
+def duplicates(request):
+    rooms = Room.objects.all()
+    cords = []
+    res_dict = {}
+    for r in rooms:
+        cords.append(f'{r.x},{r.y}')
+    cords_set = set(cords)
+    res_dict['difference'] = len(cords) - len(cords_set)
+    res_dict['all'] = cords
+    res_dict['cord'] = list(cords_set)
+    return JsonResponse(res_dict)
+
+@csrf_exempt
+@api_view(["GET"])
 def get_rooms(request):
     rooms = Room.objects.all()
     rooms_res = []
     res = {}
     res_dict = {}
     for r in rooms:
-        res[r.id] = {'title':r.title, 'description':r.description, 'n_to':r.n_to, 's_to': r.s_to,'e_to':r.e_to,"w_to": r.w_to}
+        res[r.id] = {'title':r.title, 'description':r.description, 'n_to':r.n_to, 's_to': r.s_to,'e_to':r.e_to,"w_to": r.w_to,"x": r.x, "y": r.y,}
     res_dict['rooms'] = res
     return JsonResponse(res_dict)
 

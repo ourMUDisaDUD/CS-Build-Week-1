@@ -61,7 +61,7 @@ cords = {}
 #TODO artifact room and treasure rooms have special good loot
 x = 0
 y = 0
-key = 0
+key = 1
 while room_count < num_rooms:
     name, desc = random.choice(list(names_descriptions.items()))
     if room_count is 0:

@@ -8,7 +8,7 @@ room_count = 0
 rooms = []
 dirs = {0: 'n', 1: 's', 2: 'e', 3: 'w'}
 reverse_dirs = {0: 's', 1: 'n', 2: 'w', 3: 'e'}
-num_rooms = 600
+num_rooms = 100
 
 names_descriptions = {
     'Treasure Room': 'A room brimming with gold and other treasures.',
@@ -56,13 +56,17 @@ def save_room(room, new_room, rand_dir, reverse_dir):
     new_room.connectRooms(room, reverse_dir)
     new_room.save()
 
-#TODO artifact room and treasure rooms have special good loot
+cords = {}
 
+#TODO artifact room and treasure rooms have special good loot
+x = 0
+y = 0
 while room_count < num_rooms:
     name, desc = random.choice(list(names_descriptions.items()))
     if room_count is 0:
         start_name, start_desc = endfin[0]
-        room = Room(title = start_name, description = start_desc)
+        room = Room(title = start_name, description = start_desc, x=x, y=y)
+        cords[f'{x},{y}'] = room
         room.save()
         rooms.append(room)
         room_count += 1
@@ -77,38 +81,78 @@ while room_count < num_rooms:
                 end_name, end_desc = endfin[1]
                 name = end_name
                 desc = end_desc
-            new_room = Room(title = name,
-                            description = desc)
-            save_room(rand_room, new_room, rand_dir, rev_dir)
-            rooms.append(new_room)
-            room_count += 1
+            new_y = rand_room.y + 1
+            new_room = Room(title = name, description = desc, x = rand_room.x, y = new_y)
+            if f'{new_room.x},{new_room.y}' in cords.keys(): 
+                print("Present, ", end =" ") 
+                room = cords[f'{new_room.x},{new_room.y}']
+                rand_room.connectRooms(room, rand_dir)
+                room.connectRooms(rand_room, rev_dir)
+                room.save()
+            else: 
+                print("not present, ", end =" ") 
+                save_room(rand_room, new_room, rand_dir, rev_dir)
+                cords[f'{new_room.x},{new_room.y}'] = new_room
+                rooms.append(new_room)
+                room_count += 1
         elif rand_dir is 's' and rand_room.s_to is 0:
             if room_count == num_rooms - 1:
                 end_name, end_desc = endfin[1]
                 name = end_name
                 desc = end_desc
-            new_room = Room(title = name, description = desc)
-            save_room(rand_room, new_room, rand_dir, rev_dir)
-            rooms.append(new_room)
-            room_count += 1
+            new_y = rand_room.y - 1
+            new_room = Room(title = name, description = desc, x = rand_room.x, y = new_y)
+            if f'{new_room.x},{new_room.y}' in cords.keys(): 
+                print("Present, ", end =" ") 
+                room = cords[f'{new_room.x},{new_room.y}']
+                # #save_room(rand_room, cords[f'{new_room.x},{new_room.y}'], rand_dir, rev_dir)
+                rand_room.connectRooms(room, rand_dir)
+                room.connectRooms(rand_room, rev_dir)
+                room.save()
+            else: 
+                print("not present, ", end =" ") 
+                save_room(rand_room, new_room, rand_dir, rev_dir)
+                cords[f'{new_room.x},{new_room.y}'] = new_room
+                rooms.append(new_room)
+                room_count += 1
         elif rand_dir is 'e' and rand_room.e_to is 0:
             if room_count == num_rooms - 1:
                 end_name, end_desc = endfin[1]
                 name = end_name
                 desc = end_desc
-            new_room = Room(title = name, description = desc)
-            save_room(rand_room, new_room, rand_dir, rev_dir)
-            rooms.append(new_room)
-            room_count += 1
+            new_x = rand_room.x + 1
+            new_room = Room(title = name, description = desc, x = new_x, y = rand_room.y)
+            if f'{new_room.x},{new_room.y}' in cords.keys(): 
+                print("Present, ", end =" ") 
+                room = cords[f'{new_room.x},{new_room.y}']
+                rand_room.connectRooms(room, rand_dir)
+                room.connectRooms(rand_room, rev_dir)
+                room.save()
+            else: 
+                print("not present, ", end =" ") 
+                save_room(rand_room, new_room, rand_dir, rev_dir)
+                cords[f'{new_room.x},{new_room.y}'] = new_room
+                rooms.append(new_room)
+                room_count += 1
         elif rand_dir is 'w' and rand_room.w_to is 0:
             if room_count == num_rooms - 1:
                 end_name, end_desc = endfin[1]
                 name = end_name
                 desc = end_desc
-            new_room = Room(title = name, description = desc)
-            save_room(rand_room, new_room, rand_dir, rev_dir)
-            rooms.append(new_room)
-            room_count += 1
+            new_x = rand_room.x - 1
+            new_room = Room(title = name, description = desc, x = new_x, y = rand_room.y)
+            if f'{new_room.x},{new_room.y}' in cords.keys(): 
+                print("Present, ", end =" ") 
+                room = cords[f'{new_room.x},{new_room.y}']
+                rand_room.connectRooms(room, rand_dir)
+                room.connectRooms(rand_room, rev_dir)
+                room.save()
+            else: 
+                print("not present, ", end =" ") 
+                save_room(rand_room, new_room, rand_dir, rev_dir)
+                cords[f'{new_room.x},{new_room.y}'] = new_room
+                rooms.append(new_room)
+                room_count += 1
         rand_room.save()
 
 players = Player.objects.all()

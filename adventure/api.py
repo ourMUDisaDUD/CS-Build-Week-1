@@ -45,7 +45,7 @@ def get_rooms(request):
     res = {}
     res_dict = {}
     for r in rooms:
-        res[r.key] = {'key': r.key, 'title':r.title, 'description':r.description, 'n_to':r.n_to, 's_to': r.s_to,'e_to':r.e_to,"w_to": r.w_to,"x": r.x, "y": r.y,}
+        res[r.key] = {'dbid': r.id, 'key': r.key, 'title':r.title, 'description':r.description, 'n_to':r.n_to, 's_to': r.s_to,'e_to':r.e_to,"w_to": r.w_to,"x": r.x, "y": r.y,}
     res_dict['rooms'] = res
     return JsonResponse(res_dict)
 

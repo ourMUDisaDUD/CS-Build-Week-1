@@ -78,6 +78,7 @@ while room_count < num_rooms:
         direction = random.randint(0, 3)
         rand_dir = dirs[direction]
         rev_dir = reverse_dirs[direction]
+        
         if rand_dir is 'n' and rand_room.n_to is 0:
             if room_count == num_rooms - 1:
                 end_name, end_desc = endfin[1]

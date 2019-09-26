@@ -78,19 +78,15 @@ while room_count < num_rooms:
         direction = random.randint(0, 3)
         rand_dir = dirs[direction]
         rev_dir = reverse_dirs[direction]
-        
         if rand_dir is 'n' and rand_room.n_to is 0:
             if room_count == num_rooms - 1:
                 end_name, end_desc = endfin[1]
                 name = end_name
                 desc = end_desc
-            new_y = rand_room.y + 1
+            new_y = rand_room.y - 1
             new_room = Room(key = key, title = name, description = desc, x = rand_room.x, y = new_y)
             if f'{new_room.x},{new_room.y}' in cords.keys():  
-                room = cords[f'{new_room.x},{new_room.y}']
-                rand_room.connectRooms(room, rand_dir)
-                room.connectRooms(rand_room, rev_dir)
-                room.save()
+                pass
             else:  
                 save_room(rand_room, new_room, rand_dir, rev_dir)
                 cords[f'{new_room.x},{new_room.y}'] = new_room
@@ -102,14 +98,10 @@ while room_count < num_rooms:
                 end_name, end_desc = endfin[1]
                 name = end_name
                 desc = end_desc
-            new_y = rand_room.y - 1
+            new_y = rand_room.y + 1
             new_room = Room(key = key, title = name, description = desc, x = rand_room.x, y = new_y)
             if f'{new_room.x},{new_room.y}' in cords.keys():  
-                room = cords[f'{new_room.x},{new_room.y}']
-                # #save_room(rand_room, cords[f'{new_room.x},{new_room.y}'], rand_dir, rev_dir)
-                rand_room.connectRooms(room, rand_dir)
-                room.connectRooms(rand_room, rev_dir)
-                room.save()
+                pass
             else:  
                 save_room(rand_room, new_room, rand_dir, rev_dir)
                 cords[f'{new_room.x},{new_room.y}'] = new_room
@@ -124,10 +116,7 @@ while room_count < num_rooms:
             new_x = rand_room.x + 1
             new_room = Room(key = key, title = name, description = desc, x = new_x, y = rand_room.y)
             if f'{new_room.x},{new_room.y}' in cords.keys():  
-                room = cords[f'{new_room.x},{new_room.y}']
-                rand_room.connectRooms(room, rand_dir)
-                room.connectRooms(rand_room, rev_dir)
-                room.save()
+                pass
             else:  
                 save_room(rand_room, new_room, rand_dir, rev_dir)
                 cords[f'{new_room.x},{new_room.y}'] = new_room
@@ -142,10 +131,7 @@ while room_count < num_rooms:
             new_x = rand_room.x - 1
             new_room = Room(key = key, title = name, description = desc, x = new_x, y = rand_room.y)
             if f'{new_room.x},{new_room.y}' in cords.keys():  
-                room = cords[f'{new_room.x},{new_room.y}']
-                rand_room.connectRooms(room, rand_dir)
-                room.connectRooms(rand_room, rev_dir)
-                room.save()
+                pass
             else:  
                 save_room(rand_room, new_room, rand_dir, rev_dir)
                 cords[f'{new_room.x},{new_room.y}'] = new_room

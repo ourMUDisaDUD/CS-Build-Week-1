@@ -1,3 +1,6 @@
+# About the algo (in create_world.py)
+The algorithim creates an initial room at 0,0 on x,y. Then selectes a random room from a list of already created rooms, picks a random direction (n,s,e,w), checks if the randomly selected room already has a room in that direction, if not it creates a new room with a random title and description and new coordinates in relation to the selected room (east of room 0,0 would be 1,0) and then checks if the new coordinates are unique, if the are it connects it with the selected room. This was tested up to 2500 rooms without problem, its a little slow (a bit over O(n)) but since its a one time run on the server its fairly cheap.
+
 # CS Build Week 1
 
 For your first CS Build Week, you will be building an interactive ***Multi-User Dungeon (MUD)*** client and server in groups. To succeed with this project, you will be applying knowledge you've learned throughout the first part of CS to this project.

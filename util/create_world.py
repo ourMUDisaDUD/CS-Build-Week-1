@@ -44,8 +44,8 @@ names_descriptions = {
 }
 
 end_finish = {
-    'Start': 'Start desc',
-    'Finish': 'Finish room'
+    'Entrance': 'You see an opening to the dungeon, you take a deep breath and venture forwards...',
+    'Exit': 'You come to a large staircase leading to the outside, you have escaped this dungeon, for now...'
 }
 
 endfin = list(end_finish.items())
